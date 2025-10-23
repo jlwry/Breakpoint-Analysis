@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def plot_with_selection(angle):
+
     """
     argument: pandas df of lumbar spine angle
 
@@ -12,27 +13,26 @@ def plot_with_selection(angle):
 
     output: the start and stop indices
     """
+
     angle = np.ravel(angle)
-    x = np.arange(len(angle))  # frame numbers
+    frames = np.arange(len(angle))
 
     fig, ax = plt.subplots()
-    ax.plot(x, angle, label='Angle')
+    ax.plot(frames, angle, label='Lumbar Spine Angle')
     ax.set_xlabel('Frames')
-    ax.set_ylabel('Angle')
-    ax.set_title('Angle vs Frames')
+    ax.set_ylabel('Lumbar Spine Angle (deg)')
     ax.grid(True)
 
     selected_indices = []
 
     def onclick(event):
         if event.inaxes == ax:
-            x_val = event.xdata
-            # find the nearest frame
-            idx = (np.abs(x - x_val)).argmin()
+            frames_val = event.xdata
+            idx = (np.abs(frames - frames_val)).argmin()
             selected_indices.append(idx)
-            ax.plot(x[idx], angle[idx], 'ro')  # x=frame, y=angle
+            ax.plot(frames[idx], angle[idx], 'ro')
             fig.canvas.draw()
-            print(f"Selected point {len(selected_indices)}: frame={x[idx]}, angle={angle[idx]:.3f} (index={idx})")
+            print(f"Selected point {len(selected_indices)}: frame={frames[idx]}, angle={angle[idx]:.3f} (index={idx})")
 
             if len(selected_indices) == 2:
                 print("Start and stop points selected.")
@@ -40,6 +40,6 @@ def plot_with_selection(angle):
                 plt.close(fig)
 
     cid = fig.canvas.mpl_connect('button_press_event', onclick)
-    plt.show()  # blocking show
+    plt.show()
 
     return selected_indices
