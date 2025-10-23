@@ -180,3 +180,7 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 .DS_Store
+/.idea/Breakpoint-Analysis.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
