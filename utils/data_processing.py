@@ -1,5 +1,4 @@
 from scipy.signal import butter, filtfilt
-import pandas as pd
 
 def butter_lowpass_filter(data, sample_freq, cutoff_freq=1, order=4):
     """
