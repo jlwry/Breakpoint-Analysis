@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 
 # --- Load data ---
-# test
 data = pd.read_csv('data/A025_processed.txt', header=4, sep="\t")
 
 angle_raw = data.iloc[:, 1].dropna()
