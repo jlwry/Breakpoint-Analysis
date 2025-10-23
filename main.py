@@ -1,3 +1,10 @@
+"""
+Example usage of the breakpoint analysis pipeline.
+
+This script demonstrates how to analyze moment-angle data from a participant.
+Modify the file path and column indices to analyze your own data.
+"""
+
 from utils.pipeline import breakpoint
 
 """
