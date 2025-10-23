@@ -2,6 +2,8 @@
 
 Determines two optimal breakpoints across the participant's range of motion, minimizing residual error in a three-segment piecewise linear fit of the moment-angle curve.
 
+<img width="400" height="250" alt="example_figure" src="https://github.com/user-attachments/assets/9abf3758-a32e-4b66-8378-1650d5efd955" />
+
 ## Brief Background: 
 
 Investigations into lumbar spine passive stiffness analyze participant moment-angle curves to identify spinal mechanical characteristics. Many investigations have employed piecewise linear functions to analyze these moment-angle curves [1-6]. The most common algorithm currently in use was developed by Barrett et al. [7], though no open-source implementation has been made publicly available.
@@ -19,8 +21,6 @@ Optimization approach: The function uses scipy.optimize.minimize with the Nelder
 3) The total SSR across all three segments is calculated and returned as the objective function.
 
 Output: The final model returns the stiffness (slope) of each segment, representing the Low, Transition, and High stiffness zones across the range of motion.
-
-<img width="800" height="500" alt="example_figure" src="https://github.com/user-attachments/assets/9abf3758-a32e-4b66-8378-1650d5efd955" />
 
 
 ## References
