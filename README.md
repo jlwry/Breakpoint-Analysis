@@ -4,26 +4,33 @@ Determines two optimal breakpoints across the participant's range of motion, min
 
 <img width="400" height="250" alt="example_figure" src="https://github.com/user-attachments/assets/9abf3758-a32e-4b66-8378-1650d5efd955" />
 
-## Brief Background: 
+## Brief Background
 
 Investigations into lumbar spine passive stiffness analyze participant moment-angle curves to identify spinal mechanical characteristics. Many investigations have employed piecewise linear functions to analyze these moment-angle curves [1-6]. The most common algorithm currently in use was developed by Barrett et al. [7], though no open-source implementation has been made publicly available.
 
 Recognizing the need for accessible analysis tools, this project implements an independently developed piecewise linear optimization approach that can be used for moment-angle analysis.
 
-## How It's Made:
+## How It's Made
 
 The algorithm identifies two breakpoints by minimizing the sum of squared residuals (SSR) across three independently-fit linear segments.
 
-Optimization approach: The function uses scipy.optimize.minimize with the Nelder-Mead method to search for optimal breakpoint locations. At each iteration:
+**Optimization approach:** The function uses `scipy.optimize.minimize` with the Nelder-Mead method to search for optimal breakpoint locations. At each iteration:
 
-1) The data is divided into three segments based on the current breakpoint positions. 
-2) A separate linear regression (using least squares via np.linalg.lstsq) is fit to each segment independently.
-3) The total SSR across all three segments is calculated and returned as the objective function.
+1. The data is divided into three segments based on the current breakpoint positions
+2. A separate linear regression (using least squares via `np.linalg.lstsq` is fit to each segment independently
+3. The total SSR across all three segments is calculated and returned as the objective function
 
-Output: The final model returns the stiffness (slope) of each segment, representing the Low, Transition, and High stiffness zones across the range of motion.
+**Constraints:** Breakpoints are bounded to ensure sufficient data in each segment—the first breakpoint must fall between the 2nd and 2nd-to-last x-values, while the second breakpoint is constrained between the 3rd and last x-values. The `np.sort()` within the objective function ensures breakpoints remain ordered regardless of the optimization path.
 
-Though the current code was inspired by the Barrett et al. code [7], the code was not referenced. Therefore, the current code may yeild different results. 
+**Initial conditions:** The search begins with breakpoints at 20% and 80% of the normalized range of motion, providing a reasonable starting configuration across typical joint angles.
 
+**Note:** Linear segments are fit independently without continuity constraints at breakpoints. Each segment's slope and intercept are determined solely by the data points within that segment.
+
+**Output:** The final model returns the stiffness (slope) of each segment, representing the Low, Transition, and High stiffness zones across the range of motion.
+
+## Development Notes
+
+This implementation was developed independently to provide an open-source alternative for piecewise linear analysis of moment-angle data. While the author has prior familiarity with piecewise fitting approaches from laboratory experience, the current code was created from scratch without reference to proprietary implementations. As such, specific methodological choices (optimization algorithms, constraints, initial conditions) may differ from other published approaches [7], and results should be validated for the user's specific application.
 
 ## References
 
