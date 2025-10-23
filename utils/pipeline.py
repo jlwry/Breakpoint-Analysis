@@ -6,12 +6,13 @@ from scipy.signal import resample
 import numpy as np
 import pandas as pd
 
-def breakpoint(data: str):
+def breakpoint(data: str, angle_column:int, moment_column:int, standing_column:int):
+
     data = pd.read_csv(data, header=4, sep="\t")
 
-    angle_raw = data.iloc[:, 1].dropna()                    # Select the column that is to be analysed
-    moment_raw = data.iloc[:, 2].dropna()                   # Select the column that is to be analysed
-    standing_raw = data.iloc[:, 5].dropna()                 # Select the column that is to be analysed
+    angle_raw = data.iloc[:, angle_column].dropna()                    # Select the column that is to be analysed
+    moment_raw = data.iloc[:, moment_column].dropna()                   # Select the column that is to be analysed
+    standing_raw = data.iloc[:, standing_column].dropna()                 # Select the column that is to be analysed
 
     # --- Filter signals ---
     moment_filtered = butter_lowpass_filter(moment_raw, sample_freq=2000, cutoff_freq=1)
