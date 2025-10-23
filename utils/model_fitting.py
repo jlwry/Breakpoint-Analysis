@@ -23,11 +23,6 @@ def piecewise_linear(breakpoints, x, y):
     ssr = np.sum((y - y_pred) ** 2)
     return ssr
 
-def fit_segment(x_seg, y_seg):
-    A = np.vstack([x_seg, np.ones_like(x_seg)]).T
-    theta, *_ = np.linalg.lstsq(A, y_seg, rcond=None)
-    return theta, A @ theta
-
 def fit_full_model(x, y, t1, t2):
     mask1 = x < t1
     mask2 = (x >= t1) & (x < t2)
