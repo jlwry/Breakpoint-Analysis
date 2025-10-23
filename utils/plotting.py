@@ -3,6 +3,19 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
+def plot_results(x, y, break_1, break_2, y_fit):
+    plt.figure(figsize=(8, 5))
+    plt.plot(x, y, 'o', alpha=1, label='Data')
+    plt.plot(x, y_fit, 'r-', linewidth=2, label='Piecewise fit')
+    plt.axvline(break_1, color='k', linestyle='--', label=f'Breakpoint 1 = {break_1:.1f}%')
+    plt.axvline(break_2, color='k', linestyle='--', label=f'Breakpoint 2 = {break_2:.1f}%')
+    plt.legend()
+    plt.xlabel('Lumbar Spine Angle (% of ROM)')
+    plt.ylabel('Moment (Nm)')
+    plt.title('Piecewise Linear Fit (Angle Normalized to ROM)')
+    plt.grid(True)
+    plt.show()
+
 
 def plot_with_selection(angle):
 
