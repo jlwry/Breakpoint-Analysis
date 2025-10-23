@@ -29,10 +29,6 @@ def breakpoint(data: str, angle_column:int, moment_column:int, standing_column:i
     start_index, stop_index = sorted(selected_indices)
     angle_data = angle_down[start_index:stop_index + 1]
     moment_data = moment_down[start_index:stop_index + 1]
-    #
-    # if angle_down[start_index] < angle_down[stop_index]:
-    #     angle_data = angle_data[::-1]
-    #     moment_data = moment_data[::-1]
 
     if angle_down[start_index] > angle_down[stop_index]:
         angle_data = -angle_data + 100
