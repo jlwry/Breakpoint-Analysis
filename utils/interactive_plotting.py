@@ -6,8 +6,11 @@ import matplotlib.pyplot as plt
 
 def plot_with_selection(angle):
     """
-    Plots angle vs frames and allows interactive selection of two points (start and stop).
-    Returns the indices of the nearest points in the angle array.
+    argument: pandas df of lumbar spine angle
+
+    plots the angle data, and prompts the user to select the data they wish to analyze
+
+    output: the start and stop indices
     """
     angle = np.ravel(angle)
     x = np.arange(len(angle))  # frame numbers
