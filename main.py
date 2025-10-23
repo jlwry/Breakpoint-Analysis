@@ -9,9 +9,9 @@ import pandas as pd
 # --- Load data ---
 data = pd.read_csv('data/A025_processed.txt', header=4, sep="\t")
 
-angle_raw = data.iloc[:, 1].dropna()
-moment_raw = data.iloc[:, 2].dropna()
-standing_raw = data.iloc[:, 5].dropna()
+angle_raw = data.iloc[:, 1].dropna()                    # Select the column that is to be analysed
+moment_raw = data.iloc[:, 2].dropna()                   # Select the column that is to be analysed
+standing_raw = data.iloc[:, 5].dropna()                 # Select the column that is to be analysed
 
 # --- Filter signals ---
 moment_filtered = butter_lowpass_filter(moment_raw, sample_freq=2000, cutoff_freq=1)
@@ -23,9 +23,9 @@ standing_angle = np.mean(standing_filtered)
 # --- Downsample to match frequency ---
 new_length = len(moment_raw) // 20
 angle_down = resample(angle_filtered, new_length)
-angle_down = angle_down - standing_angle  # Normalize to standing
+angle_down = angle_down - standing_angle                # Normalize to standing
 moment_down = resample(moment_filtered, new_length)
-moment_down = (moment_down*101.24) - 0.2122
+moment_down = (moment_down*101.24) - 0.2122 3           # mV -->
 
 # --- Interactive selection of data to analyse ---
 selected_indices = plot_with_selection(angle_down)
