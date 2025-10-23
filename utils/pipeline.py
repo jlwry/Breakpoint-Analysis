@@ -10,24 +10,22 @@ def breakpoint(data: str, angle_column:int, moment_column:int, standing_column:i
 
     data = pd.read_csv(data, header=4, sep="\t")
 
-    angle_raw = data.iloc[:, angle_column].dropna()                    # Select the column that is to be analysed
-    moment_raw = data.iloc[:, moment_column].dropna()                   # Select the column that is to be analysed
-    standing_raw = data.iloc[:, standing_column].dropna()                 # Select the column that is to be analysed
+    angle_raw = data.iloc[:, angle_column].dropna()
+    moment_raw = data.iloc[:, moment_column].dropna()
+    standing_raw = data.iloc[:, standing_column].dropna()
 
-    # --- Filter signals ---
     moment_filtered = butter_lowpass_filter(moment_raw, sample_freq=2000, cutoff_freq=1)
     angle_filtered = butter_lowpass_filter(angle_raw, sample_freq=100, cutoff_freq=1)
     standing_filtered = butter_lowpass_filter(standing_raw, sample_freq=100, cutoff_freq=1)
 
-    # --- Downsample to match frequency ---
     new_length = len(moment_raw) // 20
     angle_down = resample(angle_filtered, new_length)
     angle_down = angle_down - np.mean(standing_filtered)    # Normalize to standing
     moment_down = resample(moment_filtered, new_length)
     moment_down = (moment_down*101.24) - 0.21223           # mV --> Nm
 
-    # --- Interactive selection of data to analyse ---
     selected_indices = plot_with_selection(angle_down)
+
     start_index, stop_index = sorted(selected_indices)
     angle_data = angle_down[start_index:stop_index + 1]
     moment_data = moment_down[start_index:stop_index + 1]
