@@ -38,8 +38,6 @@ def breakpoint(data: str, angle_column:int, moment_column:int, standing_column:i
     max_angle = np.max(angle_data)
     angle_norm = (angle_data - min_angle) / (max_angle - min_angle) * 100
 
-    print(f"Angle normalized to 0–100% range (min={min_angle:.2f}, max={max_angle:.2f})")
-
     x = angle_norm
     y = moment_data
 
@@ -51,11 +49,11 @@ def breakpoint(data: str, angle_column:int, moment_column:int, standing_column:i
 
     break_1, break_2 = np.sort(res.x)
 
-    print(f"Best breakpoints: t1 = {break_1:.3f}%, t2 = {break_1:.3f}%")
+    print(f"Best breakpoints: Breakpoint 1 = {break_1:.3f}%, Breakpoint 2 = {break_1:.3f}%")
     print(f"Minimized SSR: {res.fun:.3f}")
 
     y_fit, thetas = fit_full_model(x, y, break_1, break_2)
 
-    print(f"Stiffness in the L, T, and H Stiffness Zones = {thetas[0][0]:.2f}, {thetas[1][0]:.2f}, {thetas[2][0]:.2f}")
+    print(f"Stiffness in the Low, Transition, and High Stiffness Zones = {thetas[0][0]:.2f}, {thetas[1][0]:.2f}, {thetas[2][0]:.2f}")
 
     plot_results(x, y, break_1, break_2, y_fit)
