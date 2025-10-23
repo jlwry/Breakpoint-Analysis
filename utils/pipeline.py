@@ -1,5 +1,5 @@
 from utils.interactive_plotting import plot_with_selection
-from utils.data_processing import load_data, butter_lowpass_filter
+from utils.data_processing import butter_lowpass_filter
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from scipy.signal import resample
