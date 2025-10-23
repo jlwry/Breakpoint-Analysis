@@ -20,6 +20,7 @@ Optimization approach: The function uses scipy.optimize.minimize with the Nelder
 
 Output: The final model returns the stiffness (slope) of each segment, representing the Low, Transition, and High stiffness zones across the range of motion.
 
+<img width="800" height="500" alt="example_figure" src="https://github.com/user-attachments/assets/9abf3758-a32e-4b66-8378-1650d5efd955" />
 
 
 ## References
