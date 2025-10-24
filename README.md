@@ -47,7 +47,7 @@ breakpoint(
     'path/to/your/data.txt',
     angle_column=1,      # Adjust to your angle column
     moment_column=2,     # Adjust to your moment column
-    standing_column=5    # Adjust to your standing/baseline column
+    standing_column=5    # Adjust to your standing column
 )
 ```
 
