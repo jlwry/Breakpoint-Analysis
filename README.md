@@ -10,6 +10,55 @@ Investigations into lumbar spine passive stiffness analyze participant moment-an
 
 Recognizing the need for accessible analysis tools, this project implements an independently developed piecewise linear optimization approach that can be used for moment-angle analysis.
 
+## Usage
+
+### Data Format Requirements
+
+Your data file should be tab-separated with the following structure:
+- **Header row** starting at line 5 (4 lines of metadata are skipped)
+- **Columns** containing:
+  - Angle measurements (e.g., joint angle in degrees)
+  - Moment measurements (e.g., joint moment in mV -- if in Nm remove calibration)
+  - Standing/baseline spine angle for normalization
+
+Example data structure:
+```
+Frame    Angle    Moment    Standing
+1        45.2     12.3      10.5
+2        45.5     12.8      10.4
+...
+```
+
+### Running the Analysis
+
+1. **Identify your column indices** (0-indexed):
+   - In the example above: Column 0 = Frame, Column 1 = Angle, Column 2 = Moment, Column 3 = Standing
+
+2. **Run the example:**
+```bash
+python main.py
+```
+
+3. **Analyze your own data** by modifying `main.py`:
+```python
+from utils.pipeline import breakpoint
+
+breakpoint(
+    'path/to/your/data.txt',
+    angle_column=1,      # Adjust to your angle column
+    moment_column=2,     # Adjust to your moment column
+    standing_column=5    # Adjust to your standing column
+)
+```
+
+### Output
+
+The analysis will:
+1. Display an interactive plot for selecting the range of motion to analyze
+2. Print the identified breakpoint locations (as % of range of motion)
+3. Print the stiffness values for Low, Transition, and High zones
+4. Show a final plot with the fitted piecewise linear model
+
 ## How It's Made
 
 The algorithm identifies two breakpoints by minimizing the sum of squared residuals (SSR) across three independently-fit linear segments.
@@ -17,7 +66,7 @@ The algorithm identifies two breakpoints by minimizing the sum of squared residu
 **Optimization approach:** The function uses `scipy.optimize.minimize` with the Nelder-Mead method to search for optimal breakpoint locations. At each iteration:
 
 1. The data is divided into three segments based on the current breakpoint positions
-2. A separate linear regression (using least squares via `np.linalg.lstsq` is fit to each segment independently
+2. A separate linear regression (using least squares via `np.linalg.lstsq`) is fit to each segment independently
 3. The total SSR across all three segments is calculated and returned as the objective function
 
 **Constraints:** Breakpoints are bounded to ensure sufficient data in each segment—the first breakpoint must fall between the 2nd and 2nd-to-last x-values, while the second breakpoint is constrained between the 3rd and last x-values. The `np.sort()` within the objective function ensures breakpoints remain ordered regardless of the optimization path.
